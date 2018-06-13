@@ -6,7 +6,9 @@ class Brand extends Component{
     }
     render(){
         return (
-            <h2>Brands</h2>
+            <div className="container">
+                <h2>Brands</h2>
+            </div>
         );
     }
 }

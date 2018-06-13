@@ -3,7 +3,9 @@ import React, {Component} from 'react';
 class FieldForce extends Component{
     render(){
         return (
-            <h2>FieldForce</h2>
+            <div className="container">
+                <h2>Field Force</h2>
+            </div>
         )
     }
 }
