@@ -8,100 +8,69 @@ class Product extends Component{
 
     constructor(){
         super();
-        this.searchProducts = this.searchProducts.bind(this);
+
+        this.state={
+            title: 'All'
+        };
+
+        this.handleSelection = this.handleSelection.bind(this);
     }
 
-    searchProducts(){
-        console.log("button clicked");
+    handleSelection(eventKey, event){
+        this.setState({title:eventKey});
     }
 
     render(){
-        const brands = ["Apple", "Dell", "Microsoft"];
-        const products = [
-            {
-                "id":1,
-                "code":"100",
-                "brand":"Apple",
-                "name":"iPhone 6"
-            },
-            {
-                "id":2,
-                "code":"200",
-                "brand":"Apple",
-                "name":"iPhone 7"
-            },
-            {
-                "id":3,
-                "code":"300",
-                "brand":"Apple",
-                "name":"iPhone 8"
-            },
-            {
-                "id":4,
-                "code":"400",
-                "brand":"Apple",
-                "name":"iPhone X"
-            },
-            {
-                "id":5,
-                "code":"500",
-                "brand":"Microsoft",
-                "name":"Windows 10"
-            },
-            {
-                "id":6,
-                "code":"600",
-                "brand":"Microsoft",
-                "name":"XBox One"
-            },
-            {
-                "id":7,
-                "code":"700",
-                "brand":"Dell",
-                "name":"Dell Printer"
-            },
-        ];
+        const brands = this.props.brands;
+        const products = this.props.products;
 
         return (
             
             <div className="container">
-                <h2>Product</h2>
-                <DropdownButton 
-                       default
-                        title='Select a brand'
-                        id="brands"
-                        >
-                       {brands.map(
-                           (brand, index)=>
-                             <MenuItem key={index}>{brand}</MenuItem>
-                         )
-                       }
-                </DropdownButton>
-                <Button bsStyle="primary" onClick={this.searchProducts}>Search</Button>
+                <h3>Products</h3>
 
-                <Table striped bordered condensed hover>
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Code</th>
-                                <th>Brand</th>
-                                <th>Product</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            products.map((product, index)=>
-                                <tr key={product.id}>
-                                    <td>{product.id}</td>
-                                    <td>{product.code}</td>
-                                    <td>{product.brand}</td>
-                                    <td>{product.name}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                </Table>     
+                <div className="row">
+                    <div className="col-xs-8">
+                        <DropdownButton 
+                            default
+                                title={this.state.title}
+                                id="brands"
+                                bsSize="medium"
+                                onSelect={this.handleSelection}
+                                >
+                            {brands.map(
+                                (brand, index)=>
+                                    <MenuItem key={index} eventKey={brand}>{brand}</MenuItem>
+                                )
+                            }
+                        </DropdownButton>
+                        <Button bsStyle="primary" onClick={()=>this.props.onSearchClick(this.state.title)}> Search</Button>
+                    </div>
+                    <div className="col-xs-12">
+                        <Table striped bordered condensed hover>
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Code</th>
+                                            <th>Brand</th>
+                                            <th>Product</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {
+                                        products.map((product, index)=>
+                                            <tr key={product.id}>
+                                                <td>{product.id}</td>
+                                                <td>{product.code}</td>
+                                                <td>{product.brand}</td>
+                                                <td>{product.name}</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                            </Table>  
+                    </div>
+                </div>
             </div>
-
         )
     }
 }
