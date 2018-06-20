@@ -24,13 +24,16 @@ class App extends Component{
         }
     }
 
-    loadProducts(brand){
-
+    loadProducts(state){
+        console.log(state);
         let products = [{"id":1,"code":"100","brand":"Apple","name":"iPhone 6"},{"id":2,"code":"200","brand":"Apple","name":"iPhone 7"},{"id":3,"code":"300","brand":"Apple","name":"iPhone 8"},{"id":4,"code":"400","brand":"Apple","name":"iPhone X"},{"id":5,"code":"500","brand":"Microsoft","name":"Windows 10"},{"id":6,"code":"600","brand":"Microsoft","name":"XBox One"},{"id":7,"code":"700","brand":"Dell","name":"Dell Printer"}];
         
         this.setState(
             {
-                products:products.filter((p)=>(p.brand===brand) || brand==="All")
+                products:products.filter(p=>(p.brand===state.brand || state.brand==="All") 
+                                            && (p.code.toLocaleLowerCase().startsWith(state.code.toLocaleLowerCase()) || state.code==="")
+                                            && (p.name.toLocaleLowerCase().startsWith(state.name.toLocaleLowerCase()) || state.name==="")
+                                        )
             }
         );
     }
