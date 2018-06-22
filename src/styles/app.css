@@ -1,3 +1,17 @@
 .inner-container{
     margin: 100px;
 }
+
+.div-separator{
+    margin-top: 10px;
+}
+
+.dropdown button{
+    min-width: 150px;
+}
+
+.breadcrumb{
+    background-color: transparent  !important;
+    border: none !important;
+    font-size: 12px !important;
+}
