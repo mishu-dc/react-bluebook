@@ -2,7 +2,8 @@
 import React, {Component} from 'react';
 import {DropdownButton, MenuItem, Button, Table} from 'react-bootstrap';
 import {Grid, Row, Col} from 'react-bootstrap';
-import {Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import {FormControl} from 'react-bootstrap';
+import BreadcrumbCreator from './BreadcrumbCreator';
 
 
 
@@ -24,45 +25,41 @@ class Product extends Component{
         this.setState({brand:eventKey});
     }
 
-    FieldGroup({ id, label, help, ...props }) {
-        return (
-          <FormGroup controlId={id}>
-            <ControlLabel>{label}</ControlLabel>
-            <FormControl {...props} />
-          </FormGroup>
-        );
-      }
-
     render(){
         const brands = this.props.brands;
         const products = this.props.products;
+        const breadCrumbItems = [{ href: "/", name:"Home", isActive: false} , { href:"", name:"Product", isActive: true }];
 
         return (
                 <Grid>
                     <Row className="show-grid">
-                        <Col xs={12} md={8}>
-                            <Form inline>
-                                <FormGroup>
-                                <DropdownButton default  title={this.state.brand}  id="brands"onSelect={this.handleSelection}>
+                        <Col>
+                            <BreadcrumbCreator items={breadCrumbItems}></BreadcrumbCreator>
+                        </Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col xs={12} md={2}>
+                                <DropdownButton default  title={this.state.brand}  id="brands" onSelect={this.handleSelection}>
                                         {
                                             brands.map(
                                                 (brand, index)=>
-                                                    <MenuItem key={index} eventKey={brand}>{brand}</MenuItem>
+                                                    <MenuItem key={index} eventKey={brand.name}>{brand.name}</MenuItem>
                                             )
                                         }
                                 </DropdownButton>
-                                {' '}
-                                <FormControl type="text" value={this.state.code}  placeholder="Enter Code" onChange={(e)=>this.setState({code:e.target.value})}/>
-                                {' '}
-                                <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>
-                                {' '}
-                                <Button bsStyle="primary" onClick={()=>this.props.onSearchClick(this.state)}> Search</Button>
-                                </FormGroup>
-                            </Form>
+                        </Col>
+                        <Col xs={12} md={2}>
+                            <FormControl type="text" value={this.state.code}  placeholder="Enter Code" onChange={(e)=>this.setState({code:e.target.value})}/>           
+                        </Col>
+                        <Col xs={12} md={2}>
+                            <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
+                        </Col>
+                        <Col xs={12} md={2}>
+                            <Button bsStyle="primary" onClick={()=>this.props.onSearchClick(this.state)}> Search</Button>           
                         </Col>
                     </Row>
-                    <Row className="show-grid">{'  '}</Row>
-                    <Row className="show-grid">
+                    
+                    <Row className="div-separator">
                         <Col xs={12} md={12}>
                             <Table striped bordered condensed hover>
                                             <thead>
