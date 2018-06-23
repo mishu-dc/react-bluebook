@@ -15,7 +15,7 @@ class Distributor extends Component{
     }
 
     render(){
-        let distributors = this.props.distributors;
+        let distributors = this.props.distributors.filter(d=>d.id!==-1);
         let breadCrumbItems = [{ href: "/", name:"Home", isActive: false} , { href:"", name:"Distributor", isActive: true }];
 
         return (

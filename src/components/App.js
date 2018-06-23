@@ -9,6 +9,7 @@ import Product from './Product';
 import Distributor from './Distributor';
 import Market from './Market';
 import FieldForce from './FieldForce';
+import Footer from './Footer';
 
 import '../styles/app.css'
 
@@ -57,7 +58,7 @@ class App extends Component{
     }   
 
     loadDistributors(state){
-        let distributors = [{"id":1,"code":"100","name":"Dhaka"},{"id":2,"code":"200","name":"Chittagong"},{"id":3,"code":"300","name":"Comilla"}, {"id":4,"code":"300","name":"Sylhet"}];
+        let distributors = [{"id":-1,"code":"-1","name":"All"}, {"id":1,"code":"100","name":"Dhaka"},{"id":2,"code":"200","name":"Chittagong"},{"id":3,"code":"300","name":"Comilla"}, {"id":4,"code":"300","name":"Sylhet"}];
 
         this.setState({
             distributors: distributors.filter(d=> (d.name.toLowerCase().startsWith(state.name.toLowerCase()) || state.name === "") 
@@ -90,37 +91,41 @@ class App extends Component{
         return (
             <div className="App">
                 <Navigation/>       
-                <Switch>         
-                    <Route exact path="/" component={Home}></Route>
-                    <Route exact path="/Home" component={Home}></Route>
-                    <Route exact path="/About" component={About}></Route>
-                    <Route exact path="/Contact" component={Contact}></Route>
+                <div className="container-height">
+                    <Switch>         
+                        <Route exact path="/" component={Home}></Route>
+                        <Route exact path="/Home" component={Home}></Route>
+                        <Route exact path="/About" component={About}></Route>
+                        <Route exact path="/Contact" component={Contact}></Route>
 
-                    <Route exact path="/Brand" render={()=>
-                            <Brand brands = {this.state.brands} onSearchClick = {this.loadBrands}></Brand>
-                        }>
-                    </Route>
+                        <Route exact path="/Brand" render={()=>
+                                <Brand brands = {this.state.brands} onSearchClick = {this.loadBrands}></Brand>
+                            }>
+                        </Route>
 
-                    <Route exact path="/Product" render={()=>
-                            <Product brands={this.state.brands} products={this.state.products} onSearchClick={this.loadProducts}></Product>
-                        }>
-                    </Route>
+                        <Route exact path="/Product" render={()=>
+                                <Product brands={this.state.brands} products={this.state.products} onSearchClick={this.loadProducts}></Product>
+                            }>
+                        </Route>
 
-                    <Route exact path="/Distributor" render={()=>
-                            <Distributor distributors={this.state.distributors} onSearchClick = {this.loadDistributors}></Distributor>
-                        }>
-                    </Route>
+                        <Route exact path="/Distributor" render={()=>
+                                <Distributor distributors={this.state.distributors} onSearchClick = {this.loadDistributors}></Distributor>
+                            }>
+                        </Route>
 
-                    <Route exact path="/Market" render={()=>
-                            <Market markets={this.state.markets} loadMarkets = {this.loadMarkets}></Market>
-                        }>
-                    </Route>
+                        <Route exact path="/Market" render={()=>
+                                <Market markets={this.state.markets} loadMarkets = {this.loadMarkets}></Market>
+                            }>
+                        </Route>
 
-                    <Route exact path="/FieldForce" render={()=>
-                            <FieldForce {...this.state} loadDistributors={this.loadDistributors} onSearchClick={this.loadFieldForces}></FieldForce>
-                        }>
-                    </Route>
-                </Switch>
+                        <Route exact path="/FieldForce" render={()=>
+                                <FieldForce {...this.state} loadDistributors={this.loadDistributors} onSearchClick={this.loadFieldForces}></FieldForce>
+                            }>
+                        </Route>
+                    </Switch>
+                </div>
+                
+                <Footer></Footer>            
             </div>
         )
     }

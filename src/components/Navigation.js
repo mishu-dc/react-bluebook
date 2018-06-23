@@ -9,7 +9,7 @@ class Navigation extends Component{
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a href="/">React-Blue Book</a>
+                            <a href="/">Blue Book</a>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
