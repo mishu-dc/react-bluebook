@@ -19,11 +19,15 @@ class App extends Component{
         this.loadProducts = this.loadProducts.bind(this);
         this.loadBrands = this.loadBrands.bind(this);
         this.loadDistributors = this.loadDistributors.bind(this);
+        this.loadMarkets = this.loadMarkets.bind(this);
+        this.loadFieldForces = this.loadFieldForces.bind(this);
 
         this.state = {
             brands : [{"id":-1,"code":"-1","name":"All"}, {"id":1,"code":"100","name":"Apple"},{"id":2,"code":"200","name":"Microsoft"},{"id":3,"code":"300","name":"Dell"}],
             products : [],
-            distributors : []
+            distributors : [],
+            markets : [],
+            fieldforces: []
         }
     }
 
@@ -53,12 +57,32 @@ class App extends Component{
     }   
 
     loadDistributors(state){
-        let distributors = [{"id":1,"code":"100","name":"Dhaka"},{"id":2,"code":"200","name":"Chittagong"},{"id":3,"code":"300","name":"Comolla"}, {"id":4,"code":"300","name":"Sylhet"}];
+        let distributors = [{"id":1,"code":"100","name":"Dhaka"},{"id":2,"code":"200","name":"Chittagong"},{"id":3,"code":"300","name":"Comilla"}, {"id":4,"code":"300","name":"Sylhet"}];
 
         this.setState({
             distributors: distributors.filter(d=> (d.name.toLowerCase().startsWith(state.name.toLowerCase()) || state.name === "") 
                                             && (d.code.toLowerCase().startsWith(state.code.toLowerCase()) || state.code === ""))
         });
+    }
+
+    loadMarkets(){
+        this.setState(
+            {
+                markets: [{text:"Dhaka",id:1,nodes:[{text:"Dhanmondi",id:2,nodes:[{id:3,text:"Road 15"},{id:4,text:"Road 32"}]},{id:5,text:"Kolabagan"}]},{id:6,text:"Chittagong"},{id:7,text:"Comilla"},{id:8,text:"Sylhet"},{id:9,text:"Borishal"}]
+            }
+        );
+    }
+
+    loadFieldForces(state){
+       let fieldforces = [{id:1, distributorId:1, code: "100", name :"Faisal Ahmed"},{id:2, distributorId:2, code: "200", name :"Habibur Rahman"}, {id:3, distributorId:3, code: "300", name :"Shakib Ibn Daud"}];
+       
+       this.setState(
+           {
+                fieldforces: fieldforces.filter(f=>(f.distributorId===state.distributorId || state.distributorId===-1)
+                                    && (f.code.toLocaleLowerCase().startsWith(state.code.toLocaleLowerCase()) || state.code === "")
+                                    && (f.name.toLocaleLowerCase().startsWith(state.name.toLocaleLowerCase()) || state.name === ""))
+           }
+       );
     }
 
     render(){
@@ -87,8 +111,15 @@ class App extends Component{
                         }>
                     </Route>
 
-                    <Route exact path="/Market" component={Market}></Route>
-                    <Route exact path="/FieldForce" component={FieldForce}></Route>
+                    <Route exact path="/Market" render={()=>
+                            <Market markets={this.state.markets} loadMarkets = {this.loadMarkets}></Market>
+                        }>
+                    </Route>
+
+                    <Route exact path="/FieldForce" render={()=>
+                            <FieldForce {...this.state} loadDistributors={this.loadDistributors} onSearchClick={this.loadFieldForces}></FieldForce>
+                        }>
+                    </Route>
                 </Switch>
             </div>
         )
