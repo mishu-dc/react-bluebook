@@ -24,66 +24,173 @@ class App extends Component{
         this.loadFieldForces = this.loadFieldForces.bind(this);
 
         this.state = {
-            brands : [{"id":-1,"code":"-1","name":"All"}, {"id":1,"code":"100","name":"Apple"},{"id":2,"code":"200","name":"Microsoft"},{"id":3,"code":"300","name":"Dell"}],
+            domain:'http://localhost:59821/',
+            brands : [],
             products : [],
             distributors : [],
             markets : [],
             fieldforces: []
         }
     }
+    
+
+    isValid(item){
+        if(item===undefined) return false;
+        if(item.length===0) return false;
+        return true;
+    }
 
     loadProducts(state){
-        let products = [{"id":1,"code":"100","brand":"Apple","name":"iPhone 6"},{"id":2,"code":"200","brand":"Apple","name":"iPhone 7"},{"id":3,"code":"300","brand":"Apple","name":"iPhone 8"},{"id":4,"code":"400","brand":"Apple","name":"iPhone X"},{"id":5,"code":"500","brand":"Microsoft","name":"Windows 10"},{"id":6,"code":"600","brand":"Microsoft","name":"XBox One"},{"id":7,"code":"700","brand":"Dell","name":"Dell Printer"}];
-        
-        this.setState(
-            {
-                products:products.filter(p=>(p.brand===state.brand || state.brand==="All") 
-                                            && (p.code.toLocaleLowerCase().startsWith(state.code.toLocaleLowerCase()) || state.code==="")
-                                            && (p.name.toLocaleLowerCase().startsWith(state.name.toLocaleLowerCase()) || state.name==="")
-                                        )
+        let url = this.state.domain + "/api/products?";
+
+        if(state!==undefined){
+            if(this.isValid(state.code)){
+                url += "code=" + state.code + "&";
             }
-        );
+
+            if(this.isValid(state.name)){
+                url += "name=" + state.name + "&";
+            }
+
+            if(this.isValid(state.brandId)){
+                url += "brandId=" + state.brandId + "&";
+            }
+
+            if(this.isValid(state.page)){
+                url += "page=" + state.page + "&";;
+            }
+
+            if(this.isValid(state.size)){
+                url += "size=" + state.size + "&";;
+            }
+        }
+        
+        fetch(url)
+            .then(res => res.json())
+            .then((response) => {
+                        this.setState({
+                            products: response
+                        });
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+            );
     }
 
     loadBrands(state){
-        let brands = [{"id":1,"code":"100","name":"Apple"},{"id":2,"code":"200","name":"Microsoft"},{"id":3,"code":"300","name":"Dell"}];
+        let url = this.state.domain + "/api/brands?";
 
-        this.setState(
-            {
-                brands: brands.filter(b=>b.name!=="All"
-                                         && (b.name.toLocaleLowerCase().startsWith(state.name.toLocaleLowerCase()) || state.name === "")
-                                         && (b.code.toLocaleLowerCase().startsWith(state.code.toLocaleLowerCase()) || state.code === ""))
+        if(state!==undefined){
+            if(this.isValid(state.code)){
+                url += "code=" + state.code + "&";
             }
-        );
-    }   
+
+            if(this.isValid(state.name)){
+                url += "name=" + state.name + "&";
+            }
+
+            if(this.isValid(state.page)){
+                url += "page=" + state.page + "&";;
+            }
+
+            if(this.isValid(state.size)){
+                url += "size=" + state.size + "&";;
+            }
+        }
+        
+        fetch(url)
+            .then(res => res.json())
+            .then((response) => {
+                        this.setState({
+                            brands: response
+                        });
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+            );
+    }  
+    
 
     loadDistributors(state){
-        let distributors = [{"id":-1,"code":"-1","name":"All"}, {"id":1,"code":"100","name":"Dhaka"},{"id":2,"code":"200","name":"Chittagong"},{"id":3,"code":"300","name":"Comilla"}, {"id":4,"code":"300","name":"Sylhet"}];
+        let url = this.state.domain + "/api/distributors?";
 
-        this.setState({
-            distributors: distributors.filter(d=> (d.name.toLowerCase().startsWith(state.name.toLowerCase()) || state.name === "") 
-                                            && (d.code.toLowerCase().startsWith(state.code.toLowerCase()) || state.code === ""))
-        });
+        if(state!==undefined){          
+            if(this.isValid(state.code)){
+                url += "code=" + state.code + "&";
+            }
+
+            if(this.isValid(state.name)){
+                url += "name=" + state.name + "&";
+            }
+
+            if(this.isValid(state.page)){
+                url += "page=" + state.page + "&";;
+            }
+
+            if(this.isValid(state.size)){
+                url += "size=" + state.size + "&";;
+            }
+        }
+        
+        fetch(url)
+            .then(res => res.json())
+            .then((response) => {
+                        this.setState({
+                            distributors: response
+                        });
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+            );
     }
 
     loadMarkets(){
         this.setState(
             {
-                markets: [{text:"Dhaka",id:1,nodes:[{text:"Dhanmondi",id:2,nodes:[{id:3,text:"Road 15"},{id:4,text:"Road 32"}]},{id:5,text:"Kolabagan"}]},{id:6,text:"Chittagong"},{id:7,text:"Comilla"},{id:8,text:"Sylhet"},{id:9,text:"Borishal"}]
+                markets: [{name:"Dhaka",id:1,chields:[{name:"Dhanmondi",id:2,chields:[{id:3,name:"Road 15"},{id:4,name:"Road 32"}]},{id:5,name:"Kolabagan"}]},{id:6,name:"Chittagong"},{id:7,name:"Comilla"},{id:8,name:"Sylhet"},{id:9,name:"Borishal"}]
             }
         );
     }
 
     loadFieldForces(state){
-       let fieldforces = [{id:1, distributorId:1, code: "100", name :"Faisal Ahmed"},{id:2, distributorId:2, code: "200", name :"Habibur Rahman"}, {id:3, distributorId:3, code: "300", name :"Shakib Ibn Daud"}];
-       
-       this.setState(
-           {
-                fieldforces: fieldforces.filter(f=>(f.distributorId===state.distributorId || state.distributorId===-1)
-                                    && (f.code.toLocaleLowerCase().startsWith(state.code.toLocaleLowerCase()) || state.code === "")
-                                    && (f.name.toLocaleLowerCase().startsWith(state.name.toLocaleLowerCase()) || state.name === ""))
-           }
-       );
+        let url = this.state.domain + "/api/fieldforces?";
+
+        if(state!==undefined){          
+            if(this.isValid(state.code)){
+                url += "code=" + state.code + "&";
+            }
+
+            if(this.isValid(state.name)){
+                url += "name=" + state.name + "&";
+            }
+
+            if(this.isValid(state.distributorId)){
+                url += "distributorId=" + state.distributorId + "&";
+            }
+
+            if(this.isValid(state.page)){
+                url += "page=" + state.page + "&";;
+            }
+
+            if(this.isValid(state.size)){
+                url += "size=" + state.size + "&";;
+            }
+        }
+        
+        fetch(url)
+            .then(res => res.json())
+            .then((result) => {
+                        this.setState({
+                            fieldforces: result
+                        });
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+            );
     }
 
     render(){
@@ -99,17 +206,17 @@ class App extends Component{
                         <Route exact path="/Contact" component={Contact}></Route>
 
                         <Route exact path="/Brand" render={()=>
-                                <Brand brands = {this.state.brands} onSearchClick = {this.loadBrands}></Brand>
+                                <Brand brands = {this.state.brands} brands={this.state.brands} loadBrands = {this.loadBrands}></Brand>
                             }>
                         </Route>
 
                         <Route exact path="/Product" render={()=>
-                                <Product brands={this.state.brands} products={this.state.products} onSearchClick={this.loadProducts}></Product>
+                                <Product brands={this.state.brands} products={this.state.products} loadProducts={this.loadProducts} loadBrands={this.loadBrands}></Product>
                             }>
                         </Route>
 
                         <Route exact path="/Distributor" render={()=>
-                                <Distributor distributors={this.state.distributors} onSearchClick = {this.loadDistributors}></Distributor>
+                                <Distributor distributors={this.state.distributors} loadDistributors = {this.loadDistributors}></Distributor>
                             }>
                         </Route>
 
@@ -119,7 +226,7 @@ class App extends Component{
                         </Route>
 
                         <Route exact path="/FieldForce" render={()=>
-                                <FieldForce {...this.state} loadDistributors={this.loadDistributors} onSearchClick={this.loadFieldForces}></FieldForce>
+                                <FieldForce {...this.state} loadDistributors={this.loadDistributors} loadFieldForces={this.loadFieldForces}></FieldForce>
                             }>
                         </Route>
                     </Switch>

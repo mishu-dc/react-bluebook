@@ -4,10 +4,10 @@ class TreeView extends Component{
   
     setNodeId(node) {
   
-      if (!node.nodes) return;
+      if (!node.chields) return;
   
       var _this = this;
-      node.nodes.forEach(function checkStates(node) {
+      node.chields.forEach(function checkStates(node) {
         node.nodeId = node.id;
        // _this.props.nodes.push(node);
         _this.setNodeId(node);
@@ -135,7 +135,7 @@ class TreeView extends Component{
       }
   
       var expandCollapseIcon;
-      if (node.nodes) {
+      if (node.chields) {
         if (!this.state.expanded) {
           expandCollapseIcon = (
             <span className={options.expandIcon}
@@ -167,13 +167,13 @@ class TreeView extends Component{
       if (options.enableLinks) {
         nodeText = (
           <a href={node.href} /*style="color:inherit;"*/>
-            {node.text}
+            {node.name}
           </a>
         );
       }
       else {
         nodeText = (
-          <span>{node.text}</span>
+          <span>{node.name}</span>
         );
       }
   
@@ -187,9 +187,9 @@ class TreeView extends Component{
       }
   
       var children = [];
-      if (node.nodes) {
+      if (node.chields) {
         var _this = this;
-        node.nodes.forEach(function (node) {
+        node.chields.forEach(function (node) {
           children.push(<TreeNode 
                                   key = {node.id}  
                                   node={node}

@@ -1,9 +1,10 @@
 
 import React, {Component} from 'react';
-import {DropdownButton, MenuItem, Button, Table} from 'react-bootstrap';
+import {DropdownButton, MenuItem, Button} from 'react-bootstrap';
 import {Grid, Row, Col} from 'react-bootstrap';
 import {FormControl} from 'react-bootstrap';
 import BreadcrumbCreator from './BreadcrumbCreator';
+import TableView from './TableView';
 
 
 
@@ -14,20 +15,50 @@ class Product extends Component{
 
         this.state={
             brand: 'All',
+            brandId: -1,
             code:'',
-            name:''
+            name:'',
+            page:1,
+            size:10,
+            columns:["Id", "Code", "Brand", "Product"],
+            elements:["id", "code", "brandName", "name"],
+            pageSizes:[10,20,30,40,50]
         };
 
         this.handleSelection = this.handleSelection.bind(this);
+        this.loadProducts = this.loadProducts.bind(this);
     }
 
-    handleSelection(eventKey, event){
-        this.setState({brand:eventKey});
+    loadProducts(tableState){
+        this.setState({
+                page:tableState.activePage,
+                size: tableState.itemsPerPage
+            },()=>{this.props.loadProducts(this.state)}
+        );        
+    }
+
+    handleSelection(eventKey){
+        if(eventKey===-1){
+            this.setState({brandId:-1, brand:"All"});
+        }
+        else{
+            let brand = this.props.brands.results.filter(b=>b.id === eventKey);
+            this.setState({brandId:eventKey, brand:brand[0].name});
+        }
+    }
+
+    componentDidMount(){
+        this.props.loadBrands();
     }
 
     render(){
-        const brands = this.props.brands;
-        const products = this.props.products;
+
+        let brands = this.props.brands.results!==undefined?this.props.brands.results:[];
+        const products = this.props.products.results!==undefined?this.props.products.results:[];
+        const total = this.props.products.total!==undefined?this.props.products.total:0;
+
+        brands = [{ id:-1, code:"", name:"All"}, ...brands];
+
         const breadCrumbItems = [{ href: "/", name:"Home", isActive: false} , { href:"", name:"Product", isActive: true }];
 
         return (
@@ -43,7 +74,7 @@ class Product extends Component{
                                         {
                                             brands.map(
                                                 (brand, index)=>
-                                                    <MenuItem key={index} eventKey={brand.name}>{brand.name}</MenuItem>
+                                                    <MenuItem key={index} eventKey={brand.id}>{brand.name}</MenuItem>
                                             )
                                         }
                                 </DropdownButton>
@@ -54,34 +85,14 @@ class Product extends Component{
                         <Col xs={12} md={2}>
                             <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
                         </Col>
-                        <Col xs={12} md={2}>
-                            <Button bsStyle="primary" onClick={()=>this.props.onSearchClick(this.state)}> Search</Button>           
+                        <Col xs={12} md={3}>
+                            <Button bsStyle="primary" onClick={()=>this.props.loadProducts(this.state)}> Search</Button>           
                         </Col>
                     </Row>
                     
                     <Row className="div-separator">
                         <Col xs={12} md={12}>
-                            <Table striped bordered condensed hover>
-                                            <thead>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Code</th>
-                                                    <th>Brand</th>
-                                                    <th>Product</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {
-                                                products.map((product, index)=>
-                                                    <tr key={product.id}>
-                                                        <td>{product.id}</td>
-                                                        <td>{product.code}</td>
-                                                        <td>{product.brand}</td>
-                                                        <td>{product.name}</td>
-                                                    </tr>
-                                                )}
-                                            </tbody>
-                                    </Table>  
+                            <TableView {...this.state} total={total} items={products} loadData={this.loadProducts}></TableView>    
                         </Col>
                     </Row>
                 </Grid>

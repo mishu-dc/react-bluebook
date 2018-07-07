@@ -5,24 +5,24 @@ class Home extends Component{
     render(){
         return (
             <div className="container">
-                <div class="jumbotron">
+                <div className="jumbotron">
                     <h1>Blue Book</h1>
-                    <p class="lead">ReactJs App developed using ReactJs, React Bootstrap, React Router and Redux</p>
+                    <p className="lead">ReactJs App developed using ReactJs, React Bootstrap, React Router and Redux</p>
                     
                 </div>
 
-                <div class="row">
-                    <div class="col-md-4">
+                <div className="row">
+                    <div className="col-md-4">
                         <h2>Getting started</h2>
                         <p>
                             Either <a href="/Account/Register">Register</a> or <a href="/Account/LogIn">LogIn</a> to explore!
                         </p>
-                        <p><a class="btn btn-default" href="/About">Learn more &raquo;</a></p>
+                        <p><a className="btn btn-default" href="/About">Learn more &raquo;</a></p>
                     </div>
-                    <div class="col-md-4">
+                    <div className="col-md-4">
                         
                     </div>
-                    <div class="col-md-4">
+                    <div className="col-md-4">
                         
                     </div>
                 </div>

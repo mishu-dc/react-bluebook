@@ -1,9 +1,10 @@
 
 import React, {Component} from 'react';
-import {DropdownButton, MenuItem, Button, Table} from 'react-bootstrap';
+import {DropdownButton, MenuItem, Button} from 'react-bootstrap';
 import {Grid, Row, Col} from 'react-bootstrap';
 import {FormControl} from 'react-bootstrap';
 import BreadcrumbCreator from './BreadcrumbCreator';
+import TableView from './TableView';
 
 class FieldForce extends Component{
 
@@ -13,26 +14,54 @@ class FieldForce extends Component{
             distributorId:-1,
             distributor:"All",
             code:'',
-            name:''
+            name:'',
+            page:1,
+            size:10,
+            columns:["Id", "Code", "Name"],
+            elements:["id", "code", "name"],
+            pageSizes:[10,20,30,40,50]
         }
 
         this.handleSelection = this.handleSelection.bind(this);
+        this.loadFieldForces = this.loadFieldForces.bind(this);
     }
 
-    handleSelection(eventKey, event){
-        this.setState({distributorId:eventKey});
-        this.setState({distributor: this.props.distributors.filter(d=>d.id===eventKey)[0].name});
+    handleSelection(eventKey){
+        if(eventKey!==-1){
+            this.setState(
+            {
+                distributorId:eventKey,
+                distributor: this.props.distributors.results.filter(d=>d.id===eventKey)[0].name
+            });
+        }else{
+            this.setState(
+            {
+                distributorId:-1,
+                distributor: "All"
+            });
+        }        
+    }
+
+    loadFieldForces(tableState){
+        this.setState({
+            page:tableState.activePage,
+            size: tableState.itemsPerPage
+        },()=>{this.props.loadFieldForces(this.state)}
+    );  
     }
 
     componentDidMount(){
-        this.props.loadDistributors(this.state);
+        this.props.loadDistributors();
     }
 
     render(){
 
-        const distributors = this.props.distributors;
+        let distributors = this.props.distributors.results!==undefined?this.props.distributors.results:[];
         const breadCrumbItems = [{ href: "/", name:"Home", isActive: false} , { href:"", name:"Field Force", isActive: true }];    
-        const fieldforces = this.props.fieldforces;
+        const fieldforces = this.props.fieldforces.results!==undefined?this.props.fieldforces.results:[];
+        const total = this.props.fieldforces.total!==undefined?this.props.fieldforces.total:0;
+
+        distributors = [{ id:-1, code:"", name:"All"}, ...distributors];
 
         return (
             <Grid>
@@ -59,31 +88,13 @@ class FieldForce extends Component{
                             <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
                         </Col>
                         <Col xs={12} md={2}>
-                            <Button bsStyle="primary" onClick={()=>this.props.onSearchClick(this.state)}> Search</Button>           
+                            <Button bsStyle="primary" onClick={()=>this.props.loadFieldForces(this.state)}> Search</Button>           
                         </Col>
                     </Row>
                     
                     <Row className="div-separator">
                         <Col xs={12} md={12}>
-                            <Table striped bordered condensed hover>
-                                            <thead>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Code</th>
-                                                    <th>Name</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {
-                                                fieldforces.map((fieldforce, index)=>
-                                                    <tr key={fieldforce.id}>
-                                                        <td>{fieldforce.id}</td>
-                                                        <td>{fieldforce.code}</td>
-                                                        <td>{fieldforce.name}</td>
-                                                    </tr>
-                                                )}
-                                            </tbody>
-                                    </Table>  
+                            <TableView {...this.state} total={total} items={fieldforces} loadData={this.loadFieldForces}></TableView>    
                         </Col>
                     </Row>
                 </Grid>
