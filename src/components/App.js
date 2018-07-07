@@ -148,11 +148,18 @@ class App extends Component{
     }
 
     loadMarkets(){
-        this.setState(
-            {
-                markets: [{name:"Dhaka",id:1,chields:[{name:"Dhanmondi",id:2,chields:[{id:3,name:"Road 15"},{id:4,name:"Road 32"}]},{id:5,name:"Kolabagan"}]},{id:6,name:"Chittagong"},{id:7,name:"Comilla"},{id:8,name:"Sylhet"},{id:9,name:"Borishal"}]
-            }
-        );
+        let url = this.state.domain + "/api/markets?";
+        fetch(url)
+            .then(res => res.json())
+            .then((response) => {
+                        this.setState({
+                            markets: response
+                        });
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+            );
     }
 
     loadFieldForces(state){
