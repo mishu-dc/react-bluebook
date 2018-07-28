@@ -7,13 +7,13 @@ class Market extends Component{
 
     componentDidMount(){
         this.setState({
-            markets: this.props.loadMarkets()
+            markets: this.props.fetchMarkets()
         });
     }
 
     render(){
 
-        let data = this.props.markets;
+        let data = this.props.market!==undefined && this.props.market.items !== undefined? this.props.market.items:[];
 
         const breadCrumbItems = [{ href: "/", name:"Home", isActive: false} , { href:"", name:"Market", isActive: true }];  
 

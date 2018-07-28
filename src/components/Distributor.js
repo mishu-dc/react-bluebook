@@ -26,13 +26,14 @@ class Distributor extends Component{
         this.setState({
                 page:tableState.activePage,
                 size: tableState.itemsPerPage
-            },()=>{this.props.loadDistributors(this.state)}
+            },()=>{this.props.fetchDistributors(this.state)}
         );   
     }
 
     render(){
-        let distributors = this.props.distributors.results!==undefined?this.props.distributors.results:[];
-        let total = this.props.distributors.total!==undefined?this.props.distributors.total:0;
+
+        let distributors = (this.props.distributor!==undefined && this.props.distributor.items!==undefined)?this.props.distributor.items:[];
+        let total = this.props.distributor!==undefined && this.props.distributor.total!==undefined?this.props.distributor.total:0;
         let breadCrumbItems = [{ href: "/", name:"Home", isActive: false} , { href:"", name:"Distributor", isActive: true }];
 
         return (
@@ -50,7 +51,7 @@ class Distributor extends Component{
                             <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
                         </Col>
                         <Col xs={12} md={2}>
-                            <Button bsStyle="primary" onClick={()=>this.props.loadDistributors(this.state)}> Search</Button>           
+                            <Button bsStyle="primary" onClick={()=>this.props.fetchDistributors(this.state)}> Search</Button>           
                         </Col>
                     </Row>
                     

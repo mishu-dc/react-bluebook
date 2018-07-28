@@ -33,7 +33,7 @@ class Product extends Component{
         this.setState({
                 page:tableState.activePage,
                 size: tableState.itemsPerPage
-            },()=>{this.props.loadProducts(this.state)}
+            },()=>{this.props.fetchProducts(this.state)}
         );        
     }
 
@@ -42,20 +42,20 @@ class Product extends Component{
             this.setState({brandId:-1, brand:"All"});
         }
         else{
-            let brand = this.props.brands.results.filter(b=>b.id === eventKey);
+            let brand = this.props.brand.items.filter(b=>b.id === eventKey);
             this.setState({brandId:eventKey, brand:brand[0].name});
         }
     }
 
     componentDidMount(){
-        this.props.loadBrands();
+        this.props.fetchBrands();
     }
 
     render(){
 
-        let brands = this.props.brands.results!==undefined?this.props.brands.results:[];
-        const products = this.props.products.results!==undefined?this.props.products.results:[];
-        const total = this.props.products.total!==undefined?this.props.products.total:0;
+        let brands = this.props.brand!==undefined && this.props.brand.items!==undefined?this.props.brand.items:[];
+        const products = this.props.product!==undefined && this.props.product.items!==undefined?this.props.product.items:[];
+        const total = this.props.product!==undefined && this.props.product.total!==undefined?this.props.product.total:0;
 
         brands = [{ id:-1, code:"", name:"All"}, ...brands];
 
@@ -86,7 +86,7 @@ class Product extends Component{
                             <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
                         </Col>
                         <Col xs={12} md={3}>
-                            <Button bsStyle="primary" onClick={()=>this.props.loadProducts(this.state)}> Search</Button>           
+                            <Button bsStyle="primary" onClick={()=>this.props.fetchProducts(this.state)}> Search</Button>           
                         </Col>
                     </Row>
                     

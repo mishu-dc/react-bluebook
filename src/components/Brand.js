@@ -31,9 +31,9 @@ class Brand extends Component{
     }
 
     render(){
-        const brands = this.props.brands.results!==undefined? this.props.brands.results.filter(b=> b.name!=="All"):[];
+        const brands = this.props.brand!==undefined && this.props.brand.items!==undefined? this.props.brand.items.filter(b=> b.name!=="All"):[];
         const breadCrumbItems = [{ href: "/", name:"Home", isActive: false} , { href:"", name:"Brand", isActive: true }];
-        const total = this.props.brands.total!==undefined?this.props.brands.total:0;
+        const total = this.props.brand!==undefined && this.props.brand.total!==undefined?this.props.brand.total:0;
 
         return (
                 <Grid>
@@ -50,7 +50,7 @@ class Brand extends Component{
                             <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
                         </Col>
                         <Col xs={12} md={2}>
-                            <Button bsStyle="primary" onClick={()=>this.props.loadBrands(this.state)}> Search</Button>           
+                            <Button bsStyle="primary" onClick={()=>this.props.fetchBrands(this.state)}> Search</Button>           
                         </Col>
                     </Row>
                     

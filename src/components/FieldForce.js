@@ -31,7 +31,7 @@ class FieldForce extends Component{
             this.setState(
             {
                 distributorId:eventKey,
-                distributor: this.props.distributors.results.filter(d=>d.id===eventKey)[0].name
+                distributor: this.props.distributor.items.filter(d=>d.id===eventKey)[0].name
             });
         }else{
             this.setState(
@@ -46,20 +46,21 @@ class FieldForce extends Component{
         this.setState({
             page:tableState.activePage,
             size: tableState.itemsPerPage
-        },()=>{this.props.loadFieldForces(this.state)}
+        },()=>{this.props.fetchFieldforces(this.state)}
     );  
     }
 
     componentDidMount(){
-        this.props.loadDistributors();
+        this.props.fetchDistributors();
     }
 
     render(){
 
-        let distributors = this.props.distributors.results!==undefined?this.props.distributors.results:[];
-        const breadCrumbItems = [{ href: "/", name:"Home", isActive: false} , { href:"", name:"Field Force", isActive: true }];    
-        const fieldforces = this.props.fieldforces.results!==undefined?this.props.fieldforces.results:[];
-        const total = this.props.fieldforces.total!==undefined?this.props.fieldforces.total:0;
+        const breadCrumbItems = [{ href: "/", name:"Home", isActive: false} , { href:"", name:"Field Force", isActive: true }]; 
+
+        let distributors = this.props.distributor!==undefined && this.props.distributor.items!==undefined?this.props.distributor.items:[];
+        const fieldforces = this.props.distributor!==undefined && this.props.fieldforce.items!==undefined?this.props.fieldforce.items:[];
+        const total = this.props.distributor!==undefined && this.props.fieldforce.total!==undefined?this.props.fieldforce.total:0;
 
         distributors = [{ id:-1, code:"", name:"All"}, ...distributors];
 
@@ -88,7 +89,7 @@ class FieldForce extends Component{
                             <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
                         </Col>
                         <Col xs={12} md={2}>
-                            <Button bsStyle="primary" onClick={()=>this.props.loadFieldForces(this.state)}> Search</Button>           
+                            <Button bsStyle="primary" onClick={()=>this.props.fetchFieldforces(this.state)}> Search</Button>           
                         </Col>
                     </Row>
                     

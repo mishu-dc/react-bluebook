@@ -1,0 +1,5 @@
+export const USER_NAME = 'USER_NAME';
+export const ACCESS_TOKEN = 'ACCESS_TOKEN';
+export const TOKEN_TYPE = 'TOKEN_TYPE';
+export const EXPIRES_IN = 'EXPIRES_IN';
+export const RECEIVED_AT = 'RECEIVED_AT';
