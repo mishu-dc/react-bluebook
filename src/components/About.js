@@ -4,11 +4,11 @@ class About extends Component{
     render(){
         return (
             <div className="container">
-                <div class="list-group">
-                    <a href="#" className="list-group-item active">
+                <div className="list-group">
+                    <a className="list-group-item active">
                         Blue Book is a ReactJs application. It has the following technologies:
                     </a>
-                    <a href="#" class="list-group-item">
+                    <a className="list-group-item">
                         <h4>React Js Components</h4>
                         <p className="list-group-item-text">react 16.4.0</p>
                         <p className="list-group-item-text">react-dom 16.4.0</p>
@@ -20,11 +20,11 @@ class About extends Component{
                         <p className="list-group-item-text">prop-types 15.6.2</p>
                     </a>
 
-                     <a href="#" className="list-group-item">
+                    <a className="list-group-item">
                         <h4>React Redux</h4>
                     </a>
 
-                    <a href="#" className="list-group-item">
+                    <a className="list-group-item">
                         <h4>Web API</h4>
                     </a>
                 </div>
