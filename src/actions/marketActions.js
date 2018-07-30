@@ -1,6 +1,8 @@
 import { networkCallStart, networkCallEnd, networkCallError } from './networkActions';
 import { ADD_MARKET, RECEIVED_MARKETS } from './action-types';
 
+import  properties from '../helpers/properties';
+
 export function addMarket(distributor){
     return{
         type:ADD_MARKET,
@@ -20,7 +22,7 @@ export function fetchMarkets(){
     return function(dispatch){
         dispatch(networkCallStart());
 
-        let url='http://localhost:59821/api/markets?';
+        let url= properties.domain + '/api/markets?';
 
         return fetch(url)
             .then(res => res.json())

@@ -1,6 +1,8 @@
 import { networkCallStart, networkCallEnd, networkCallError } from './networkActions';
 import { ADD_FIELDFORCE, RECEIVED_FIELDFORCES } from './action-types';
 
+import  properties from '../helpers/properties';
+
 export function addFieldforce(distributor){
     return{
         type:ADD_FIELDFORCE,
@@ -26,7 +28,7 @@ export function fetchFieldforces(params){
     return function(dispatch){
         dispatch(networkCallStart());
 
-        let url='http://localhost:59821/api/fieldforces?';
+        let url = properties.domain + '/api/fieldforces?';
 
         if(params!==undefined){          
             if(isValid(params.code)){

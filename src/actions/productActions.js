@@ -1,6 +1,8 @@
 import { networkCallStart, networkCallEnd, networkCallError } from './networkActions';
 import { ADD_PRODUCT, RECEIVED_PRODUCTS  } from "./action-types";
 
+import  properties from '../helpers/properties';
+
 export function addProduct(product){
     return {
         type: ADD_PRODUCT,
@@ -26,7 +28,7 @@ export function fetchProducts(params) {
     return function (dispatch) {
         dispatch(networkCallStart())
 
-        let url='http://localhost:59821/api/products?';
+        let url= properties.domain + '/api/products?';
 
         if(params!==undefined){
             if(isValid(params.code)){

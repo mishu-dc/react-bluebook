@@ -1,6 +1,8 @@
 import { networkCallStart, networkCallEnd, networkCallError } from './networkActions';
 import { ADD_DISTRIBUTOR, RECEIVED_DISTRIBUTORS } from './action-types';
 
+import  properties from '../helpers/properties';
+
 export function addDistributor(distributor){
     return{
         type:ADD_DISTRIBUTOR,
@@ -26,7 +28,7 @@ export function fetchDistributors(params){
     return function(dispatch){
         dispatch(networkCallStart());
 
-        let url='http://localhost:59821/api/distributors?';
+        let url = properties.domain + '/api/distributors?';
 
         if(params!==undefined){          
             if(isValid(params.code)){

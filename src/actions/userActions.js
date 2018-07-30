@@ -1,6 +1,7 @@
 import {USER_LOGIN, USER_LOGOUT, USER_LOGIN_SUCCESS, USER_LOGIN_ERROR} from './action-types';
 import { networkCallStart, networkCallEnd, networkCallError } from './networkActions';
 
+import  properties from '../helpers/properties';
 
 export function loginSuccess(response){
     return {
@@ -34,7 +35,7 @@ export function verifyLogin(credentials){
         dispatch(networkCallStart())
         userLogin(credentials);
 
-        let url = "http://localhost:59821/token";
+        let url = properties.domain + "/token";
         const body = 'grant_type=password&username=' + credentials.userName + '&password=' + credentials.password;
 
         return fetch(url, {

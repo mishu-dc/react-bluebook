@@ -1,6 +1,8 @@
 import { ADD_BRAND, RECEIVED_BRANDS  } from "./action-types";
 import { networkCallStart, networkCallEnd, networkCallError } from './networkActions';
 
+import  properties from '../helpers/properties';
+
 export function addBrand(brand){
     return {
         type: ADD_BRAND,
@@ -25,7 +27,7 @@ export function fetchBrands(params) {
     return function (dispatch) {
         dispatch(networkCallStart())
 
-        let url = "http://localhost:59821/api/brands?";
+        let url = properties.domain + "/api/brands?";
 
         if(params!==undefined){
             if(isValid(params.code)){
