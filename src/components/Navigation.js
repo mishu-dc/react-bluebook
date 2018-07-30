@@ -18,7 +18,7 @@ class Navigation extends Component{
                             <LinkContainer to="Home" href="/">
                                 <NavItem eventKey={1}>Home</NavItem>
                             </LinkContainer>
-                            <NavDropdown eventKey={3} title="Basic" id="basic-nav-dropdown">
+                            <NavDropdown eventKey={3} title="Basic" id="basic-nav-dropdown" disabled={!this.props.user.isAuthenticated}>
                                 <LinkContainer to="Brand" href="/Brand"><MenuItem eventKey={3.1}>Brand</MenuItem></LinkContainer>
                                 <LinkContainer to="Product" href="/Product"><MenuItem eventKey={3.2}>Product</MenuItem></LinkContainer>
                                 <MenuItem divider />
@@ -33,6 +33,18 @@ class Navigation extends Component{
                             <LinkContainer to="Contact" href="/Contact">
                                 <NavItem eventKey={4}>Contact</NavItem>
                             </LinkContainer>
+                        </Nav>
+                        <Nav pullRight>
+                            <NavItem eventKey={5}>
+                                <span  className="">
+                                    <b>
+                                        {this.props.user.isAuthenticated?"Welcome " + this.props.user.user.userName + "!":"Welcome Guest!"}
+                                    </b>
+                                </span>
+                            </NavItem>
+                            <NavItem eventKey={5} href={this.props.user.isAuthenticated?"/LogOut":"/LogIn"} >
+                                {this.props.user.isAuthenticated?"Log Out":"Log In"}
+                            </NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

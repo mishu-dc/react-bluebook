@@ -12,6 +12,7 @@ import Distributor from './Distributor';
 import Market from './Market';
 import FieldForce from './FieldForce';
 import Footer from './Footer';
+import LogIn from './LogIn';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -51,21 +52,23 @@ function mapDispatchToProps(dispatch){
 
 class App extends Component{
 
-    constructor(){
-        super();
-    }
-    
     render(){
-        
         return (
             <div className="App">
-                <Navigation/>       
+                <Navigation {...this.props}/>       
                 <div className="container-height">
                     <Switch>         
                         <Route exact path="/" component={Home}></Route>
                         <Route exact path="/Home" component={Home}></Route>
                         <Route exact path="/About" component={About}></Route>
                         <Route exact path="/Contact" component={Contact}></Route>
+
+                        <Route exact path="/LogOut" {...this.props} render={()=> this.props.userLogout()}></Route>
+
+                        <Route exact path="/LogIn" render={()=>
+                                <LogIn {...this.props}></LogIn>
+                            }>
+                        </Route>
 
                         <Route exact path="/Brand" render={()=>
                                 <Brand {...this.props}></Brand>
@@ -91,6 +94,7 @@ class App extends Component{
                                 <FieldForce {...this.props}></FieldForce>
                             }>
                         </Route>
+
                     </Switch>
                 </div>
                 
