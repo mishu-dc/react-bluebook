@@ -77,3 +77,7 @@ table th{
     border-width: thin;
     border-color: #e0d8d8; 
 }
+
+.welcome{
+    color:green;
+}
