@@ -15,7 +15,9 @@ class LogIn extends Component{
         const password = event.target.elements.password.value;
         console.log(this.props);
         this.props.verifyLogin({"userName": email, "password": password});
-
+        if(this.props.user!=undefined && this.props.user.isAuthenticated===true){
+            
+        }
     }
     
     render(){

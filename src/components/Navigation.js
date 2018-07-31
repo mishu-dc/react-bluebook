@@ -35,16 +35,20 @@ class Navigation extends Component{
                             </LinkContainer>
                         </Nav>
                         <Nav pullRight>
-                            <NavItem eventKey={5}>
-                                <span  className="">
-                                    <b>
-                                        {this.props.user.isAuthenticated?"Welcome " + this.props.user.user.userName + "!":"Welcome Guest!"}
-                                    </b>
-                                </span>
-                            </NavItem>
-                            <NavItem eventKey={5} href={this.props.user.isAuthenticated?"/LogOut":"/LogIn"} >
-                                {this.props.user.isAuthenticated?"Log Out":"Log In"}
-                            </NavItem>
+                            <LinkContainer to="" href="">
+                                <NavItem eventKey={5}>
+                                    <span  className="">
+                                        <b>
+                                            {this.props.user.isAuthenticated?"Welcome " + this.props.user.user.userName + "!" : "Welcome Guest!"}
+                                        </b>
+                                    </span>
+                                </NavItem>
+                            </LinkContainer>
+                            <LinkContainer to="LogIn" href={this.props.user.isAuthenticated?"/LogOut":"/LogIn"}>
+                                <NavItem eventKey={6}>
+                                    {this.props.user.isAuthenticated?"Log Out":"Log In"}
+                                </NavItem>
+                            </LinkContainer>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
