@@ -2,14 +2,28 @@ import React, {Component} from 'react';
 import {Navbar, Nav, NavItem, MenuItem, NavDropdown} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 
+import '../styles/app.css';
+
 class Navigation extends Component{
+
+    constructor(){
+        super();
+        this.handleLogout = this.handleLogout.bind(this);
+    }
+
+    handleLogout(){
+        if(this.props.user!==undefined && this.props.user.isAuthenticated){
+            this.props.userLogout();
+        }
+    }
+
     render(){
         return (
             <div>
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a href="/">Blue Book</a>
+                            <a href="/">React Blue Book</a>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
@@ -35,20 +49,14 @@ class Navigation extends Component{
                             </LinkContainer>
                         </Nav>
                         <Nav pullRight>
-                            <LinkContainer to="" href="">
-                                <NavItem eventKey={5}>
-                                    <span  className="">
-                                        <b>
-                                            {this.props.user.isAuthenticated?"Welcome " + this.props.user.user.userName + "!" : "Welcome Guest!"}
-                                        </b>
-                                    </span>
-                                </NavItem>
-                            </LinkContainer>
-                            <LinkContainer to="LogIn" href={this.props.user.isAuthenticated?"/LogOut":"/LogIn"}>
-                                <NavItem eventKey={6}>
-                                    {this.props.user.isAuthenticated?"Log Out":"Log In"}
-                                </NavItem>
-                            </LinkContainer>
+                            <NavDropdown eventKey={5} title="Welcome Guest!" id="basic-nav-dropdown" className={this.props.user.isAuthenticated?"hide-menu":"show-menu"}>
+                                <LinkContainer to="LogIn" href="/LogIn"><MenuItem eventKey={5.1}>LogIn</MenuItem></LinkContainer>
+                                <LinkContainer to="Register" href="/Register"><MenuItem eventKey={5.1}>Register</MenuItem></LinkContainer>
+                            </NavDropdown>
+                            <NavDropdown eventKey={6} title={"Welcome " + this.props.user.user.userName + "!"} id="basic-nav-dropdown" className={this.props.user.isAuthenticated?"show-menu":"hide-menu"}>
+                                <LinkContainer to="LogIn"><MenuItem eventKey={6.1}>Logout</MenuItem></LinkContainer>
+                                <LinkContainer to="ChangePassword" href="/ChangePassword"><MenuItem eventKey={6.1}>Change Password</MenuItem></LinkContainer>
+                            </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

@@ -75,7 +75,7 @@ function userReducer(state=initialState, action){
                 state,
                 {
                     isAuthenticated:true,
-                    message:'success',
+                    message:'',
                     user:
                     {
                         userName: action.payload.userName,

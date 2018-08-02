@@ -35,7 +35,7 @@ export function verifyLogin(credentials){
         dispatch(networkCallStart())
         userLogin(credentials);
 
-        let url = properties.domain + "/token";
+        let url = properties.domain + "token";
         const body = 'grant_type=password&username=' + credentials.userName + '&password=' + credentials.password;
 
         return fetch(url, {

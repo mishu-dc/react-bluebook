@@ -19,6 +19,6 @@ window.store = store;
 window.verifyLogin = verifyLogin;
 window.userLogout = userLogout;
 
-store.subscribe(()=>console.log("store updated", store.getState()));
+//store.subscribe(()=>console.log("store updated", store.getState()));
 
 ReactDOM.render(<Provider store={store}><BrowserRouter><App></App></BrowserRouter></Provider>, document.getElementById('root'));

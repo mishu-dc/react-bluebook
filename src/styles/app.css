@@ -81,3 +81,15 @@ table th{
 .welcome{
     color:green;
 }
+
+.hide-menu{
+    display: none !important;
+}
+
+.show-menu{
+    display: block !important;
+}
+
+.hide{
+    display: none !important;
+}

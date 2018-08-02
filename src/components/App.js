@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Navigation from './Navigation';
 import { Route, Switch } from 'react-router-dom';
-import {withRouter} from 'react-router'
+import { withRouter } from 'react-router'
 
 import Home from './Home';
 import About from './About';
@@ -14,8 +14,9 @@ import FieldForce from './FieldForce';
 import Footer from './Footer';
 import LogIn from './LogIn';
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import * as brandActions  from '../actions/brandActions';
 import * as productActions from '../actions/productActions';
@@ -24,7 +25,7 @@ import * as fieldforceActions from '../actions/fieldforceActions';
 import * as marketActions from '../actions/marketActions';
 import * as userActions from '../actions/userActions';
 
-import '../styles/app.css'
+import '../styles/app.css';
 
 
 function mapStateToProps(state){
