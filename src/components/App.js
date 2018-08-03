@@ -96,6 +96,8 @@ class App extends Component{
                             }>
                         </Route>
 
+                        <Route component={Home}></Route>
+
                     </Switch>
                 </div>
                 
