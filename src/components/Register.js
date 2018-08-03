@@ -1,41 +1,32 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { Form, Button, FormGroup, FormControl, ControlLabel, Checkbox } from 'react-bootstrap';
+import { Form, Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import Loading from './Loading';
-import queryString  from 'query-string';
 
-
-class LogIn extends Component{
-
+class Register extends Component{
     constructor(props){
         super(props);
-        this.props.userLogout();
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit(event){
         event.preventDefault();
-        const email = event.target.elements.email.value;
-        const password = event.target.elements.password.value;
+
+        const email = event.target.elements.registerEmail.value;
+        const password = event.target.elements.registerPassword.value;
+        const confirmPassword = event.target.elements.confirmPassword.value;
 
         let _this = this;
         
-        this.props.verifyLogin({"userName": email, "password": password})
+        this.props.userRegister( { "email": email, "password": password, "confirmPassword": confirmPassword } )
             .then(function(){
-                if(_this.props.user!==undefined && _this.props.user.isAuthenticated){
-                    const parsed = queryString.parse(_this.props.location.search);
-                    if(parsed.redirect!==undefined){
-                        _this.props.history.push("/" + parsed.redirect);       
-                    }else{
-                        _this.props.history.push("/");   
-                    }
-                }
+                _this.props.history.push("/LogIn");       
             }
         );
     }
 
-    render(){      
-        return (
+    render(){
+        return(
             <Grid>
                 <Row className="show-grid">
                     <Form horizontal onSubmit={this.handleSubmit}>
@@ -46,20 +37,19 @@ class LogIn extends Component{
                         </FormGroup>
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={2}> Email </Col>
-                            <Col sm={5}> <FormControl type="email" placeholder="Email" id="email" name="email"/> </Col>
+                            <Col sm={5}> <FormControl type="email" placeholder="Email" id="registerEmail" name="registerEmail"/> </Col>
                         </FormGroup>
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={2}> Password </Col>
-                            <Col sm={5}> <FormControl type="password" placeholder="Password" id="password" name="password" /> </Col>
+                            <Col sm={5}> <FormControl type="password" placeholder="Password" id="registerPassword" name="registerPassword" /> </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Col smOffset={2} sm={5}>
-                                <Checkbox id="rememberMe" name="rememberMe">Remember me</Checkbox>
-                            </Col>
+                            <Col componentClass={ControlLabel} sm={2}> Confirm Password </Col>
+                            <Col sm={5}> <FormControl type="password" placeholder="Confirm Password" id="confirmPassword" name="confirmPassword" /> </Col>
                         </FormGroup>                        
                         <FormGroup>
                             <Col smOffset={2} sm={1}>
-                                <Button type="submit">Sign in</Button>
+                                <Button type="submit">Register</Button>
                             </Col>
                             <Col>
                                 <Loading {...this.props}></Loading>
@@ -68,8 +58,9 @@ class LogIn extends Component{
                     </Form>
                 </Row>
             </Grid>
-        );
+        )
     }
 }
 
-export default LogIn;
+export default Register;
+

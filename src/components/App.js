@@ -13,6 +13,7 @@ import Market from './Market';
 import FieldForce from './FieldForce';
 import Footer from './Footer';
 import LogIn from './LogIn';
+import Register from './Register';
 
 
 import { connect } from 'react-redux';
@@ -60,16 +61,12 @@ class App extends Component{
                 <div className="container-height">
                     <Switch>         
                         <Route exact path="/" component={Home}></Route>
-                        <Route exact path="/Home" component={Home}></Route>
+                        <Route exact path="/Home" component={Home} {...this.props}></Route>
                         <Route exact path="/About" component={About}></Route>
                         <Route exact path="/Contact" component={Contact}></Route>
-
                         <Route exact path="/LogOut" {...this.props} render={()=> this.props.userLogout()}></Route>
-
-                        <Route exact path="/LogIn" render={()=>
-                                <LogIn {...this.props}></LogIn>
-                            }>
-                        </Route>
+                        <Route exact path="/LogIn" render={()=><LogIn {...this.props}></LogIn>}></Route>
+                        <Route exact path="/Register" render={()=><Register {...this.props}></Register>}></Route>
 
                         <Route exact path="/Brand" render={()=>
                                 <Brand {...this.props}></Brand>

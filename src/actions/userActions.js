@@ -30,6 +30,43 @@ export function userLogout(){
     }
 }
 
+export function userRegister(credentials){
+    return function(dispatch){
+        dispatch(networkCallStart())
+        
+        let url = properties.domain + "api/Account/Register";
+        const body = {
+            "email":credentials.email,
+            "password":credentials.password,
+            "confirmPassword":credentials.password
+        };
+
+        return fetch(url, {
+                method: "POST",
+                body: body,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then(function(response){
+                return response.json();
+            }).then((response) => {
+                    if(response.error!==undefined){
+                        dispatch(networkCallError( {'message': response.message} ))
+                        dispatch(loginFailed(response))
+                    }
+                    else{
+                        dispatch(networkCallEnd( {'message':'user registered in successfully'} ))
+                        dispatch(loginSuccess(response))
+                    }
+                },
+                (error) => {
+                    dispatch(networkCallError({'message': error}))
+                    loginFailed(error)
+                }
+            )
+    }
+}
+
 export function verifyLogin(credentials){
     return function(dispatch){
         dispatch(networkCallStart())
