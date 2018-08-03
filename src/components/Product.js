@@ -5,6 +5,7 @@ import {Grid, Row, Col} from 'react-bootstrap';
 import {FormControl} from 'react-bootstrap';
 import BreadcrumbCreator from './BreadcrumbCreator';
 import TableView from './TableView';
+import Loading from './Loading';
 
 
 
@@ -30,10 +31,11 @@ class Product extends Component{
     }
 
     loadProducts(tableState){
+        let _this = this;
         this.setState({
                 page:tableState.activePage,
                 size: tableState.itemsPerPage
-            },()=>{this.props.fetchProducts(this.state)}
+            },()=>{_this.props.fetchProducts(this.state)}
         );        
     }
 
@@ -48,6 +50,10 @@ class Product extends Component{
     }
 
     componentDidMount(){
+        if(this.props.user!==undefined && this.props.user.isAuthenticated===false){
+            this.props.history.push("/LogIn?redirect=Product");
+            return;
+        }
         this.props.fetchBrands();
     }
 
@@ -85,8 +91,11 @@ class Product extends Component{
                         <Col xs={12} md={2}>
                             <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
                         </Col>
-                        <Col xs={12} md={3}>
+                        <Col xs={12} md={1}>
                             <Button bsStyle="primary" onClick={()=>this.props.fetchProducts(this.state)}> Search</Button>           
+                        </Col>
+                        <Col xs={12} md={1}>
+                            <Loading {...this.props}></Loading>
                         </Col>
                     </Row>
                     

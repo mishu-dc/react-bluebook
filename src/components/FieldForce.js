@@ -5,6 +5,7 @@ import {Grid, Row, Col} from 'react-bootstrap';
 import {FormControl} from 'react-bootstrap';
 import BreadcrumbCreator from './BreadcrumbCreator';
 import TableView from './TableView';
+import Loading from './Loading';
 
 class FieldForce extends Component{
 
@@ -19,7 +20,7 @@ class FieldForce extends Component{
             size:10,
             columns:["Id", "Code", "Name"],
             elements:["id", "code", "name"],
-            pageSizes:[10,20,30,40,50]
+            pageSizes:[10,20,30,40,50,100]
         }
 
         this.handleSelection = this.handleSelection.bind(this);
@@ -51,6 +52,10 @@ class FieldForce extends Component{
     }
 
     componentDidMount(){
+        if(this.props.user!==undefined && this.props.user.isAuthenticated===false){
+            this.props.history.push("/LogIn?redirect=FieldForce");
+            return;
+        }
         this.props.fetchDistributors();
     }
 
@@ -88,8 +93,11 @@ class FieldForce extends Component{
                         <Col xs={12} md={2}>
                             <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
                         </Col>
-                        <Col xs={12} md={2}>
+                        <Col xs={12} md={1}>
                             <Button bsStyle="primary" onClick={()=>this.props.fetchFieldforces(this.state)}> Search</Button>           
+                        </Col>
+                        <Col xs={12} md={1}>
+                            <Loading {...this.props}></Loading>
                         </Col>
                     </Row>
                     

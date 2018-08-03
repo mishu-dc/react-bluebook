@@ -6,9 +6,11 @@ import BreadcrumbCreator from './BreadcrumbCreator';
 class Market extends Component{
 
     componentDidMount(){
-        this.setState({
-            markets: this.props.fetchMarkets()
-        });
+        if(this.props.user!==undefined && this.props.user.isAuthenticated===false){
+            this.props.history.push("/LogIn?redirect=Market");
+            return;
+        }
+        this.props.fetchMarkets();
     }
 
     render(){
