@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Form, Button, FormGroup, FormControl, ControlLabel, Checkbox } from 'react-bootstrap';
 import Loading from './Loading';
+import queryString  from 'query-string';
 
 
 class LogIn extends Component{
@@ -18,14 +19,19 @@ class LogIn extends Component{
         const password = event.target.elements.password.value;
 
         let _this = this;
-
+        
         this.props.verifyLogin({"userName": email, "password": password})
-        .then(function(){
-            if(_this.props.user!==undefined && _this.props.user.isAuthenticated){
-                _this.props.history.push("/");   
-            }
-        });
-    }
+            .then(function(){
+                if(_this.props.user!==undefined && _this.props.user.isAuthenticated){
+                    const parsed = queryString.parse(_this.props.location.search);
+                    if(parsed.redirect!==undefined){
+                        _this.props.history.push("/" + parsed.redirect);       
+                    }else{
+                        _this.props.history.push("/");   
+                    }
+                }
+            });
+        }
 
     render(){      
         return (

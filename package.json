@@ -5,6 +5,7 @@
   "dependencies": {
     "cookie-universal": "^2.0.5",
     "prop-types": "^15.6.2",
+    "query-string": "^5.1.1",
     "react": "^16.4.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.0",
