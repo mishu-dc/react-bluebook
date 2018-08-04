@@ -41,7 +41,7 @@ class LogIn extends Component{
                     <Form horizontal onSubmit={this.handleSubmit}>
                         <FormGroup>
                             <Col smOffset={2} sm={5}>
-                                <Col componentClass={ControlLabel} sm={10}> {this.props.user.message} </Col>
+                                <Col componentClass={ControlLabel} sm={10}  className="error"> {this.props.user.message} </Col>
                             </Col>
                         </FormGroup>
                         <FormGroup>

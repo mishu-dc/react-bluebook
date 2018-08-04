@@ -1,31 +1,38 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Form, Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
 import Loading from './Loading';
 
-class Register extends Component{
-    constructor(props){
-        super(props);
+class ChangePassword extends Component{
+
+    constructor(){
+        super();
 
         this.state = {
             isSuccess:false,
-            message:''  
-        };
+            message:'' 
+        }
 
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount(){
+        if(this.props.user!==undefined && this.props.user.isAuthenticated===false){
+            this.props.history.push("/LogIn?redirect=ChangePassword");
+            return;
+        }
     }
 
     handleSubmit(event){
         event.preventDefault();
 
-        const email = event.target.elements.registerEmail.value;
-        const password = event.target.elements.registerPassword.value;
+        const oldPassword = event.target.elements.oldPassword.value;
+        const newPassword = event.target.elements.newPassword.value;
         const confirmPassword = event.target.elements.confirmPassword.value;
 
         let _this = this;
         
-        this.props.userRegister( { "email": email, "password": password, "confirmPassword": confirmPassword } )
+        this.props.changePassword( { "oldPassword": oldPassword, "newPassword": newPassword, "confirmPassword": confirmPassword }, this.props.user.user )
             .then(function(){
                 if(_this.props.network!==undefined){
                     if(_this.props.network.status==='err'){
@@ -51,12 +58,12 @@ class Register extends Component{
                                 </Col>
                             </FormGroup>
                             <FormGroup>
-                                <Col componentClass={ControlLabel} sm={2}> Email </Col>
-                                <Col sm={5}> <FormControl type="email" placeholder="Email" id="registerEmail" name="registerEmail"/> </Col>
+                                <Col componentClass={ControlLabel} sm={2}> Old Password </Col>
+                                <Col sm={5}> <FormControl type="Password" placeholder="Old Password" id="oldPassword" name="oldPassword"/> </Col>
                             </FormGroup>
                             <FormGroup>
-                                <Col componentClass={ControlLabel} sm={2}> Password </Col>
-                                <Col sm={5}> <FormControl type="password" placeholder="Password" id="registerPassword" name="registerPassword" /> </Col>
+                                <Col componentClass={ControlLabel} sm={2}> New Password </Col>
+                                <Col sm={5}> <FormControl type="Password" placeholder="New Password" id="newPassword" name="newPassword" /> </Col>
                             </FormGroup>
                             <FormGroup>
                                 <Col componentClass={ControlLabel} sm={2}> Confirm Password </Col>
@@ -64,7 +71,7 @@ class Register extends Component{
                             </FormGroup>                        
                             <FormGroup>
                                 <Col smOffset={2} sm={1}>
-                                    <Button type="submit">Register</Button>
+                                    <Button type="submit">Update</Button>
                                 </Col>
                                 <Col>
                                     <Loading {...this.props}></Loading>
@@ -80,15 +87,13 @@ class Register extends Component{
                 <Grid>
                         <Row className="show-grid">
                             <Col smOffset={2} sm={8}>
-                                <div><h3>Congratulation! user accout has been created successfully. Please click {<Link to="/LogIn">here</Link>} to login.</h3></div>
+                                <div><h3>Congratulation! your password has been changed successfully. </h3></div>
                             </Col>
                         </Row>
                 </Grid>
             )
         }
     }
-    
 }
 
-export default Register;
-
+export default ChangePassword;

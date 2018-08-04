@@ -30,6 +30,40 @@ export function userLogout(){
     }
 }
 
+export function changePassword(credentials, user){
+    return function(dispatch){
+        dispatch(networkCallStart())
+        let url = properties.domain + "api/Account/ChangePassword";
+        const body = {
+            "oldPassword":credentials.oldPassword,
+            "newPassword":credentials.newPassword,
+            "confirmPassword":credentials.confirmPassword
+        };
+
+        return fetch(url, {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": user.tokenType + " " + user.accessToken
+            },
+        }).then(function(response){
+            return response.json();
+        }).then((response) => {
+                if(response.message!==undefined){
+                    dispatch(networkCallError( {'message': response.message} ))
+                }
+                else{
+                    dispatch(networkCallEnd( {'message':'password changed successfully.'} ))
+                }
+            },
+            (error) => {
+                dispatch(networkCallError({'message': error}))
+            }
+        )
+    }
+}
+
 export function userRegister(credentials){
     return function(dispatch){
         dispatch(networkCallStart())
@@ -38,25 +72,24 @@ export function userRegister(credentials){
         const body = {
             "email":credentials.email,
             "password":credentials.password,
-            "confirmPassword":credentials.password
+            "confirmPassword":credentials.confirmPassword
         };
 
         return fetch(url, {
                 method: "POST",
-                body: body,
+                body: JSON.stringify(body),
                 headers: {
                     "Content-Type": "application/json"
                 },
             }).then(function(response){
                 return response.json();
             }).then((response) => {
-                    if(response.error!==undefined){
+                    if(response.message!==undefined){
                         dispatch(networkCallError( {'message': response.message} ))
                         dispatch(loginFailed(response))
                     }
                     else{
-                        dispatch(networkCallEnd( {'message':'user registered in successfully'} ))
-                        dispatch(loginSuccess(response))
+                        dispatch(networkCallEnd( {'message':'User registered successfully.'} ))
                     }
                 },
                 (error) => {
