@@ -12,8 +12,8 @@ class Contact extends Component{
                 </address>
 
                 <address>
-                    <strong>Support:</strong>   <a href="mailto:support@bluebook.com">Support@bluebook.com</a><br />
-                    <strong>Marketing:</strong> <a href="mailto:marketing@bluebook.com">Marketing@bluebook.com</a>
+                    <strong>Support:</strong>   <a href="mailto:support@bluebook.com">support@bluebook.com</a><br />
+                    <strong>Marketing:</strong> <a href="mailto:marketing@bluebook.com">marketing@bluebook.com</a>
                 </address>
             </div>
         )
