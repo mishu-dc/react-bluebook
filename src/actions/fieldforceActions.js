@@ -24,7 +24,7 @@ function isValid(item){
 }
 
 
-export function fetchFieldforces(params){
+export function fetchFieldforces(params, user){
     return function(dispatch){
         dispatch(networkCallStart());
 
@@ -52,11 +52,22 @@ export function fetchFieldforces(params){
             }
         } 
 
-        return fetch(url)
+        return fetch(url,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': user.tokenType + " " + user.accessToken
+                }
+            })
             .then(res => res.json())
             .then((response) => {
-                dispatch(networkCallEnd({'message':'fieldforces fetched successfully'}))
-                    dispatch(receivedFieldforces(response))
+                    if(response.message!==undefined){
+                        dispatch(networkCallError(response))
+                    }
+                    else{
+                        dispatch(networkCallEnd({'message':'fieldforces fetched successfully'}))
+                        dispatch(receivedFieldforces(response))
+                    }
                 },
                 (error) => {
                     dispatch(networkCallError(error))

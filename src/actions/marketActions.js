@@ -18,17 +18,28 @@ export function receivedMarkets(response){
 }
 
 
-export function fetchMarkets(){
+export function fetchMarkets(user){
     return function(dispatch){
         dispatch(networkCallStart());
 
         let url= properties.domain + '/api/markets?';
 
-        return fetch(url)
+        return fetch(url,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': user.tokenType + " " + user.accessToken
+                }
+            })
             .then(res => res.json())
             .then((response) => {
-                    dispatch(networkCallEnd({'message':'markets fetched successfully'}))
-                    dispatch(receivedMarkets(response))
+                    if(response.message!==undefined){
+                        dispatch(networkCallError(response))
+                    }
+                    else{
+                        dispatch(networkCallEnd({'message':'markets fetched successfully'}))
+                        dispatch(receivedMarkets(response))
+                    }
                 },
                 (error) => {
                     dispatch(networkCallError(error))

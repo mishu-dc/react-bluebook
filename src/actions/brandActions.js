@@ -23,7 +23,7 @@ function isValid(item){
     return true;
 }
 
-export function fetchBrands(params) {
+export function fetchBrands(params, user) {
     return function (dispatch) {
         dispatch(networkCallStart())
 
@@ -47,11 +47,22 @@ export function fetchBrands(params) {
             }
         }
 
-        return fetch(url)
+        return fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': user.tokenType + " " + user.accessToken
+                }
+             })
             .then(res => res.json())
             .then((response) => {
-                    dispatch(networkCallEnd({'message':'brands fetched successfully'}))
-                    dispatch(receivedBrands(response))
+                    if(response.message!==undefined){
+                        dispatch(networkCallError(response))
+                    }
+                    else{
+                        dispatch(networkCallEnd({'message':'brands fetched successfully'}))
+                        dispatch(receivedBrands(response))
+                    }
                 },
                 (error) => {
                     dispatch(networkCallError(error))

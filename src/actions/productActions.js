@@ -24,7 +24,7 @@ function isValid(item){
 }
 
 
-export function fetchProducts(params) {
+export function fetchProducts(params, user) {
     return function (dispatch) {
         dispatch(networkCallStart())
 
@@ -52,11 +52,22 @@ export function fetchProducts(params) {
             }
         }     
 
-        return fetch(url)
+        return fetch(url,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': user.tokenType + " " + user.accessToken
+                }
+            })
             .then(res => res.json())
             .then((response) => {
-                    dispatch(networkCallEnd({'message':'products fetched successfully'}))
-                    dispatch(receivedProducts(response))
+                    if(response.message!==undefined){
+                        dispatch(networkCallError(response))
+                    }
+                    else{
+                        dispatch(networkCallEnd({'message':'products fetched successfully'}))
+                        dispatch(receivedProducts(response))
+                    }                    
                 },
                 (error) => {
                     dispatch(networkCallError(error))

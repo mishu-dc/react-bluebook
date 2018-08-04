@@ -24,7 +24,7 @@ function isValid(item){
 }
 
 
-export function fetchDistributors(params){
+export function fetchDistributors(params, user){
     return function(dispatch){
         dispatch(networkCallStart());
 
@@ -48,11 +48,22 @@ export function fetchDistributors(params){
             }
         }  
 
-        return fetch(url)
+        return fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': user.tokenType + " " + user.accessToken
+                }
+            })
             .then(res => res.json())
             .then((response) => {
-                    dispatch(networkCallEnd({'message':'distributors fetched successfully'}))
-                    dispatch(receivedDistributors(response))
+                    if(response.message!==undefined){
+                        dispatch(networkCallError(response))
+                    }
+                    else{
+                        dispatch(networkCallEnd({'message':'distributors fetched successfully'}))
+                        dispatch(receivedDistributors(response))
+                    }
                 },
                 (error) => {
                     dispatch(networkCallError(error))
