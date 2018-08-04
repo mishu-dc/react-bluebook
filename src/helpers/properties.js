@@ -1,3 +1,3 @@
 export default {
-    'domain':'http://localhost:59821/'
+    'domain':'http://webapi.faisalahmed.us/'
 }
