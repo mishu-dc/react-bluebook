@@ -33,7 +33,7 @@ class Distributor extends Component{
         this.setState({
                 page:tableState.activePage,
                 size: tableState.itemsPerPage
-            },()=>{this.props.fetchDistributors(this.state)}
+            },()=>{this.props.fetchDistributors(this.state, this.props.user.user)}
         );   
     }
 
@@ -58,10 +58,13 @@ class Distributor extends Component{
                             <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
                         </Col>
                         <Col xs={12} md={1}>
-                            <Button bsStyle="primary" onClick={()=>this.props.fetchDistributors(this.state)}> Search</Button>           
+                            <Button bsStyle="primary" onClick={()=>this.props.fetchDistributors(this.state, this.props.user.user)}> Search</Button>           
                         </Col>
                         <Col xs={12} md={1}>
                             <Loading {...this.props}></Loading>
+                        </Col>
+                        <Col sm={12} md={5} className="error">
+                             <span>  {this.props.network.errorMessage}  </span>
                         </Col>
                     </Row>
                     

@@ -32,10 +32,11 @@ class Product extends Component{
 
     loadProducts(tableState){
         let _this = this;
+        console.log("props", _this.props);
         this.setState({
                 page:tableState.activePage,
                 size: tableState.itemsPerPage
-            },()=>{_this.props.fetchProducts(this.state)}
+            },()=>{_this.props.fetchProducts(this.state, _this.props.user.user)}
         );        
     }
 
@@ -54,7 +55,7 @@ class Product extends Component{
             this.props.history.push("/LogIn?redirect=Product");
             return;
         }
-        this.props.fetchBrands();
+        this.props.fetchBrands( {} , this.props.user.user);
     }
 
     render(){
@@ -92,10 +93,13 @@ class Product extends Component{
                             <FormControl type="text" value={this.state.name}  placeholder="Enter Name" onChange={(e)=> this.setState({name:e.target.value})}/>            
                         </Col>
                         <Col xs={12} md={1}>
-                            <Button bsStyle="primary" onClick={()=>this.props.fetchProducts(this.state)}> Search</Button>           
+                            <Button bsStyle="primary" onClick={()=>this.props.fetchProducts(this.state, this.props.user.user)}> Search</Button>           
                         </Col>
                         <Col xs={12} md={1}>
                             <Loading {...this.props}></Loading>
+                        </Col>
+                        <Col sm={12} md={5} className="error">
+                             <span>  {this.props.network.errorMessage}  </span>
                         </Col>
                     </Row>
                     

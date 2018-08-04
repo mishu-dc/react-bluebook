@@ -10,7 +10,7 @@ class Market extends Component{
             this.props.history.push("/LogIn?redirect=Market");
             return;
         }
-        this.props.fetchMarkets();
+        this.props.fetchMarkets(this.props.user.user);
     }
 
     render(){
@@ -27,8 +27,11 @@ class Market extends Component{
                     </Col>
                 </Row>
                 <Row className="show-grid">
+                    <Col sm={10} className="error"> <span>  {this.props.network.errorMessage}  </span></Col>
+                </Row>
+                <Row className="show-grid">
                     <Col xs={12} md={6}>
-                        <TreeView data={data} />,
+                        <TreeView data={data} />
                     </Col>
                 </Row>
             </Grid>

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 class Home extends Component{
     
     render(){
-        if(this.props.user===undefined || this.props.user.isAuthenticated===true){
+        if(this.props.user===undefined || this.props.user.isAuthenticated===false){
             return (
                 <div className="container">
                     <div className="jumbotron">
