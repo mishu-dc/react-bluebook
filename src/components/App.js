@@ -14,6 +14,7 @@ import FieldForce from './FieldForce';
 import Footer from './Footer';
 import LogIn from './LogIn';
 import Register from './Register';
+import ChangePassword from './ChangePassword';
 
 
 import { connect } from 'react-redux';
@@ -60,13 +61,21 @@ class App extends Component{
                 <Navigation {...this.props}/>       
                 <div className="container-height">
                     <Switch>         
-                        <Route exact path="/" component={Home}></Route>
-                        <Route exact path="/Home" component={Home} {...this.props}></Route>
+                        <Route exact path="/" render={()=>
+                                <Home {...this.props}></Home>
+                            }>
+                        </Route>
+                        <Route exact path="/Home" render={()=>
+                                <Home {...this.props}></Home>
+                            }>
+                        </Route>
+
                         <Route exact path="/About" component={About}></Route>
                         <Route exact path="/Contact" component={Contact}></Route>
                         <Route exact path="/LogOut" {...this.props} render={()=> this.props.userLogout()}></Route>
                         <Route exact path="/LogIn" render={()=><LogIn {...this.props}></LogIn>}></Route>
                         <Route exact path="/Register" render={()=><Register {...this.props}></Register>}></Route>
+                        <Route exact path="/ChangePassword" render={()=><ChangePassword {...this.props}></ChangePassword>}></Route>
 
                         <Route exact path="/Brand" render={()=>
                                 <Brand {...this.props}></Brand>
@@ -93,7 +102,10 @@ class App extends Component{
                             }>
                         </Route>
 
-                        <Route component={Home}></Route>
+                        <Route render={()=>
+                                <Home {...this.props}></Home>
+                            }>
+                        </Route>
 
                     </Switch>
                 </div>

@@ -93,3 +93,8 @@ table th{
 .hide{
     display: none !important;
 }
+
+.error{
+    color: red;
+    text-align:left !important;
+}
